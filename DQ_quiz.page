@@ -1,0 +1,119 @@
+<apex:page docType="html-5.0" cache="false" controller="DQ_qiuz_Controller" lightningStylesheets="true" showHeader="false"  title="Daily Quiz">
+    <head>
+        <apex:includeScript value="{!URLFOR($Resource.jQuery)}"/>
+        <apex:includeScript value="{!URLFOR($Resource.jsAddition)}"/>
+        <title>Quiz</title>
+    </head>
+    <apex:slds />
+    <apex:outputPanel >
+    
+    <apex:form id="mainForm">
+        <apex:outputPanel >
+            <div class="slds-grid slds-wrap slds-p-vertical_medium">
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_4-of-12 slds-p-horizontal_medium slds-p-vertical_medium">
+                	<apex:image url="{!$Resource.ScheduleFreshAir}"/>
+                    <p class="slds-text-heading_small slds-text-align_right"> © Oleksii Bezuhlyi </p>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_4-of-12 slds-p-horizontal_medium">
+                	<div class="slds-grid slds-wrap slds-p-vertical_medium slds-align_absolute-center">
+            
+                        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-p-horizontal_medium">
+                            
+                            <div class="slds-card slds-p-vertical_medium">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                  <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                      <p class="slds-text-heading_large slds-p-left_x-small"> Done Yesterday: </p>
+                                    </h2>
+                                </div>
+                                </header>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <apex:inputTextarea rows="3" styleClass="slds-input" required="true" value="{!Workload_Yesterday}"/>
+                                </div>
+                            </div>
+                        
+                        
+                           <div class="slds-card slds-p-vertical_medium">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                  <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                      <p class="slds-text-heading_large slds-p-left_x-small"> Plans for Today:</p>
+                                    </h2>
+                                </div>
+                                </header>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <apex:inputTextarea rows="3" styleClass="slds-input" required="true" value="{!Workload_Today}"/>
+                                </div>
+                            </div>
+                            
+                         <div class="slds-p-vertical_medium">
+                             
+                            
+                            <div class="slds-card slds-p-vertical_medium">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                  <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                      <p class="slds-text-heading_large slds-p-left_x-small">Some Additional Info? </p>
+                                    </h2>
+                                </div>
+                                </header>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <apex:inputTextarea rows="1" styleClass="slds-input slds-p-left_x-small" value="{!AddInfo}"/>
+                                </div>
+                            </div>
+                        </div>  
+                            
+                            <div class="slds-card slds-p-vertical_medium">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                  <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                      <p class="slds-text-heading_large slds-p-left_x-small"> Will you work on Commerce Projects?</p>
+                                    </h2>
+                                </div>
+                                </header>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <apex:selectRadio styleClass="slds-input radioBtns" required="true" value="{!prodWorkload}">
+                                        <apex:selectOptions value="{!items}"/>
+                                    </apex:selectRadio>
+                                </div>
+                            </div>
+            
+                           <div id="projName" class="slds-card slds-p-vertical_medium">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                  <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                      <p class="slds-text-heading_large slds-p-left_x-small"> Project Name:</p>
+                                    </h2>
+                                </div>
+                            </header>
+                            <div class="slds-card__body slds-card__body_inner">
+                                    <apex:inputText styleClass="slds-input slds-p-left_x-small" value="{!Commerce_Project}" maxlength="255"/>
+                                </div>
+                           </div>
+                            
+                            <div id="projTime" class="slds-card slds-p-vertical_medium">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                  <div class="slds-media__body">
+                                    <h2 class="slds-card__header-title">
+                                      <p class="slds-text-heading_large slds-p-left_x-small"> Estimated Time: </p>
+                                    </h2>
+                                </div>
+                                </header>
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <apex:input styleClass="slds-input slds-p-left_x-small" type="number" html-min="1" value="{!Estimated_Time}"/>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="slds-grid slds-gutters slds-align_absolute-center slds-p-vertical_small">
+                        <apex:commandButton styleClass="slds-button slds-button_brand" action="{!saveRecord}" value="Send" id="theButton"/>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_4-of-12 slds-p-horizontal_medium"></div>
+            </div>
+        
+        </apex:outputPanel>
+    </apex:form>
+ </apex:outputPanel>
+</apex:page>

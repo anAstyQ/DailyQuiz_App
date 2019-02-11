@@ -1,0 +1,27 @@
+<apex:component controller="DQ_Answer_Controller">
+    <apex:attribute name="dqL" type="User[]" description="list"/>
+    
+    <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-p-vertical_small slds-is-selected">
+    	<thead>
+    		<tr class="slds-line-height_reset">
+                <th scope="col-2">
+                    <div class="slds-truncate">
+                        <p class="slds-text-heading_large slds-text-align_center slds-p-top_large"><b>Not Reported:</b></p>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody><apex:variable var="ind" value="{!0}"/>
+            <apex:repeat value="{!dqL}" var="userNA">
+                <tr class="slds-hint-parent ">
+                    <th data-label="Name" scope="row">
+                        <div class="slds-truncate"><a href="" tabindex="-1">{!userNA.Name}</a></div>
+                    </th>
+                </tr><apex:variable var="ind" value="{!ind+1}"/>
+            </apex:repeat>
+            <th scope="col"><div class="slds-truncate">
+                <p class="slds-text-heading_medium slds-text-align_right" style="color: #514f4d;">total:<b> {!ind}</b></p>
+                </div></th>
+        </tbody>
+    </table>
+</apex:component>

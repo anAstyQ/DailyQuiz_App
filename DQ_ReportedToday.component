@@ -1,0 +1,78 @@
+<apex:component controller="DQ_Answer_Controller">
+    <apex:attribute name="dqL" type="Daily_Quiz__c[]" description="list"/>
+    <apex:attribute name="renderFor" type="Boolean" description="check which view to display"/>
+    
+    <apex:outputPanel id="commonView" rendered="{!NOT(renderFor)}">
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th scope="col"><div class="slds-truncate">Name</div></th>
+                    <th scope="col"><div class="slds-truncate">In Time ?</div></th>
+                    <th scope="col"><div class="slds-truncate">Today</div></th>
+                    <th scope="col"><div class="slds-truncate">Yesterday</div></th>
+                    <th scope="col"><div class="slds-truncate">Production</div></th>
+                    <th scope="col"><div class="slds-truncate">Commerce Project</div></th>
+                    <th scope="col"><div class="slds-truncate">Estimated Time</div></th>
+                </tr>
+            </thead>
+            <tbody>
+                <apex:repeat value="{!dqL}" var="dq">
+                    <tr class="slds-hint-parent">
+                        <th data-label="Name" scope="row">
+                            <div class="slds-truncate"><a href="" tabindex="-1">{!dq.Owner.Name}</a></div>
+                        </th>
+                        <td data-label="inTime">
+                            <div class="slds-truncate slds-text-align_center" style="white-space: normal">
+                                <apex:outputField id="intime" value="{!dq.In_Time__c}"/>
+                            </div>
+                        </td>
+                        <td data-label="Today"><div class="slds-truncate" style="white-space: normal">{!dq.Workload_Today__c}</div></td>
+                        <td data-label="Yesterday"><div class="slds-truncate" style="white-space: normal">{!dq.Workload_Yesterday__c}</div></td>
+                        <td data-label="Commerce"><div class="slds-truncate answered slds-text-align_center" style="white-space: normal">
+                             <apex:outputField styleClass="answered" value="{!dq.Workload_Product__c}"/></div></td>
+                        <td data-label="Project"><div class="slds-truncate" style="white-space: normal">{!dq.Commerce_Project__c}</div></td>
+                        <td data-label="Estimated Time"><div class="slds-truncate slds-text-align_center" style="white-space: normal">{!dq.Estimated_Time__c}</div></td>
+                    </tr>
+                </apex:repeat>
+            </tbody>
+        </table>
+    </apex:outputPanel>
+    
+    <apex:outputPanel id="adminView" rendered="{!renderFor}">
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+            <thead>
+                <tr class="slds-line-height_reset">
+                    <th scope="col"><div class="slds-truncate">Name</div></th>
+                    <th scope="col"><div class="slds-truncate">In Time ?</div></th>
+                    <th scope="col"><div class="slds-truncate">Today</div></th>
+                    <th scope="col"><div class="slds-truncate">Yesterday</div></th>
+                    <th scope="col"><div class="slds-truncate">Production</div></th>
+                    <th scope="col"><div class="slds-truncate">Commerce Project</div></th>
+                    <th scope="col"><div class="slds-truncate">Estimated Time</div></th>
+                    <th scope="col"><div class="slds-truncate">Additional Info</div></th>
+                </tr>
+            </thead>
+            <tbody>
+                <apex:repeat value="{!dqL}" var="dq">
+                    <tr class="slds-hint-parent">
+                        <th data-label="Name" scope="row">
+                            <div class="slds-truncate"><a href="" tabindex="-1">{!dq.Owner.Name}</a></div>
+                        </th>
+                        <td data-label="inTime">
+                            <div class="slds-truncate slds-text-align_center" style="white-space: normal">
+                                <apex:outputField id="intime" value="{!dq.In_Time__c}"/>
+                            </div>
+                        </td>
+                        <td data-label="Today"><div class="slds-truncate" style="white-space: normal">{!dq.Workload_Today__c}</div></td>
+                        <td data-label="Yesterday"><div class="slds-truncate" style="white-space: normal">{!dq.Workload_Yesterday__c}</div></td>
+                        <td data-label="Commerce"><div class="slds-truncate answered slds-text-align_center" style="white-space: normal">
+                             <apex:outputField styleClass="answered" value="{!dq.Workload_Product__c}"/></div></td>
+                        <td data-label="Project"><div class="slds-truncate" style="white-space: normal">{!dq.Commerce_Project__c}</div></td>
+                        <td data-label="Estimated Time"><div class="slds-truncate slds-text-align_center" style="white-space: normal">{!dq.Estimated_Time__c}</div></td>
+                        <td data-label="Additional Info"><div class="slds-truncate" style="white-space: normal">{!dq.AddInfo__c}</div></td>
+                    </tr>
+                </apex:repeat>
+            </tbody>
+        </table>
+    </apex:outputPanel>
+</apex:component>

@@ -1,0 +1,89 @@
+<apex:page docType="html-5.0" cache="false" controller="DQ_Answer_Controller" lightningStylesheets="true" showHeader="false"  title="Answers">
+    <head>
+        <apex:includeScript value="{!URLFOR($Resource.jQuery)}"/>
+        <apex:includeScript value="{!URLFOR($Resource.JS_DQ)}"/>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous"/>
+        <title>Salesforce Department WorkLoad</title>
+    </head> 
+    
+    <apex:slds /> 
+    <style>
+	    .selectDate{
+        	color: #514f4d; 
+            font-size: 32 px;
+        }
+        .colorW{
+        	color: white;
+        }
+        .collapse{
+        	font-size: 32px;
+        	width: 15%;
+        }
+    </style>
+
+    <apex:form id="mainForm">
+        <div class="slds-grid slds-wrap slds-gutters slds-p-vertical_small">
+          <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_2-of-12 slds-text-align_center">
+              <span class="slds-text-align_left">
+                  <div class="slds-card__body slds-card__body_inner">
+                      <h2 class="slds-card__header-title"><p class="slds-p-bottom_x-small selectDate"><b>Select Date:</b></p></h2>
+                      <apex:outputPanel rendered="{!NOT(monthlyView)}">
+                          <apex:input type="date" value="{!pickedDate}" onchange="changeDatepicker('{!pickedDate}');" styleClass="slds-input" required="true"/>
+                          <div class="slds-p-vertical_medium slds-text-align_center">
+                              <a class="slds-button slds-button_brand" onclick="changeDown();"><i class="fas fa-angle-left colorW"></i></a>
+                              <a id="monthly" class="slds-button slds-button_brand" onclick="{monthlyViewAct();}">Monthly</a>
+                              <a class="slds-button slds-button_brand" onclick="changeUp();"><i class="fas fa-angle-right colorW"></i></a>
+                          </div>
+                          <br/>
+                          <apex:outputPanel rendered="{!sysAdmin}">
+                              <c:DQ_NotReported dqL="{!dqNotAnswL}"/>
+                         </apex:outputPanel>
+                      </apex:outputPanel>
+                      <apex:outputPanel rendered="{!monthlyView}">
+                          <span class="slds-var-p-right_xx-small">
+                              <apex:selectList onchange="changeMonthChecklists('{!months}');" value="{!months}" multiselect="false" size="1" required="true">
+                                  <apex:selectOptions value="{!itemsMonths}"/>
+                              </apex:selectList>
+                          </span>
+                              <apex:selectList value="{!years}" multiselect="false" size="1" required="true">
+                                  <apex:selectOptions value="{!itemsYears}"/>
+                              </apex:selectList>                              
+                          <div class="slds-p-vertical_medium slds-text-align_center">
+                              <a class="slds-button slds-button_brand" onclick="{dailyViewAct();}"> Daily View</a>
+                          </div>
+                      </apex:outputPanel>
+                 </div>
+              </span>
+            </div>
+            <div class="slds-col slds-size_1-of-1 slds-medium-size_11-of-12 slds-large-size_9-of-12">
+                <apex:outputPanel id="listPanel" rendered="{!NOT(monthlyView)}">
+                    <c:DQ_ReportedToday dqL="{!dqL}" renderFor="{!sysAdmin}"/>
+                </apex:outputPanel> 
+                <apex:outputPanel id="mapPanel" rendered="{!monthlyView}">
+                    <apex:variable var="ind" value="{!0}"/>
+                          <apex:repeat value="{!dqLL}" var="dq2" id="theRepeat2" >
+                              <p class="slds-p-vertical_x-small">
+                                  <a class="slds-button slds-button_neutral slds-text-heading_large slds-text-align_center slds-p-vertical_medium collapse">
+                                  {!datesL[ind]}</a></p>
+                              <div class="slds-p-bottom_large" id="day-{!ind}" style="display: none;">
+                                  <apex:variable var="ind" value="{!ind+1}"/>
+                                  <c:DQ_ReportedToday dqL="{!dq2}" renderFor="{!sysAdmin}"/>
+                              </div>
+                          </apex:repeat>
+                 </apex:outputPanel>
+             </div>
+        </div>
+        
+        <apex:actionFunction action="{!handleDateDatepicker}" name="changeDatepicker" rerender="listPanel">
+            <apex:param name="paramName" value="" assignTo="{!pickedValue}" />
+        </apex:actionFunction>
+        <apex:actionFunction action="{!changeMonthChecklists}" name="changeMonthChecklists" rerender="mainForm">
+            <apex:param name="months" value="" assignTo="{!monthCheckList}" />
+        </apex:actionFunction>
+        <apex:actionFunction action="{!handleDateArrowUp}" name="changeUp" rerender="mainForm"></apex:actionFunction>
+        <apex:actionFunction action="{!handleDateArrowDown}" name="changeDown" rerender="mainForm"></apex:actionFunction>
+        <apex:actionFunction action="{!handleMonthlyView}" name="monthlyViewAct" rerender="mainForm" oncomplete="initEventHandlers();"></apex:actionFunction>
+        <apex:actionFunction action="{!handleDailyView}" name="dailyViewAct" rerender="mainForm"></apex:actionFunction>
+     
+    </apex:form>
+</apex:page>
